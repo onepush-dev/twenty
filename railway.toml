@@ -1,0 +1,16 @@
+# Reference only. This template deploys the official twentycrm/twenty image directly
+# (no build step); the Railway marketplace template is generated from the live project
+# in the dashboard. These are the settings of the public `twenty` (server) service.
+# The worker, Postgres and Redis settings live in railway/*.toml and railway/*-start-command.txt.
+
+[build]
+image = "twentycrm/twenty:v2.48.0@sha256:43fab4bffacdcd63ff3c9257b7f8985a4424d81e9eb43982b9c16a841d555e52"
+
+[deploy]
+# No start command: keep the image ENTRYPOINT (/app/entrypoint.sh runs DB init/upgrade + cron registration)
+# and CMD (node dist/main).
+healthcheckPath = "/healthz"
+healthcheckTimeout = 600
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+requiredMountPath = "/app/packages/twenty-server/.local-storage"

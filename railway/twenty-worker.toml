@@ -1,0 +1,9 @@
+# twenty-worker: same image, background jobs (BullMQ). Private, no volume, no domain.
+[build]
+image = "twentycrm/twenty:v2.48.0@sha256:43fab4bffacdcd63ff3c9257b7f8985a4424d81e9eb43982b9c16a841d555e52"
+
+[deploy]
+# Railway replaces ENTRYPOINT when a start command is set, so call the upstream entrypoint
+# explicitly. With DISABLE_DB_MIGRATIONS/DISABLE_CRON_JOBS_REGISTRATION=true it just execs the worker.
+startCommand = "/app/entrypoint.sh yarn worker:prod"
+restartPolicyType = "ALWAYS"
